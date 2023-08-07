@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cypress</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif;">
+
+<!-- Header -->
+<header class="header">
+    <nav class="nav">
+        <div class="logo-container">
+            <img src="Cypress.png" alt="Logo">
+        </div>
+
+        <ul class="nav_items">
+            <li class="nav_item">
+                <a href="#" class="nav_link">Why cypress</a>
+                <a href="#" class="nav_link">Platform</a>
+                <a href="#" class="nav_link">Pricing</a>
+
+                <a href="#" class="nav_link">customers</a>
+                <a href="#" class="nav_link">Whats new</a>
+
+                <a href="#" class="nav_link">Learn</a>
+            </li>
+        </ul>
+
+        <button class="button" id="form-open">Login</button>
+    </nav>
+    <div id="heroContent" style="background-color: #f2f2f2; padding: 20px;">
+        <!-- Initial hero content will be fetched and displayed here -->
+        <h1 style="color: #333;">Dynamic Hero Title</h1>
+        <p style="color: #666;">This is a dynamic subtitle fetched from the backend.</p>
+    </div>
+</header>
+
+<!-- Home -->
+<section class="home">
+    <div class="form_container">
+        <i class="uil uil-times form_close"></i>
+        <!-- Login Form -->
+        <div class="form login_form">
+            <form action="admin_login.php" method="post">
+                <h2>Login</h2>
+
+                <div class="input_box">
+                    <input type="email" placeholder="Enter your email" required />
+                    <i class="uil uil-envelope-alt email"></i>
+                </div>
+                <div class="input_box">
+                    <input type="password" placeholder="Enter your password" required />
+                    <i class="uil uil-lock password"></i>
+                    <i class="uil uil-eye-slash pw_hide"></i>
+                </div>
+
+                <div class="option_field">
+                    <span class="checkbox">
+                        <input type="checkbox" id="check" />
+                        <label for="check">Remember me</label>
+                    </span>
+                    <a href="#" class="forgot_pw">Forgot password?</a>
+                </div>
+
+                <button class="button">Login Now</button>
+
+                <div class="login_signup">Don't have an account? <a href="#" id="signup">Signup</a></div>
+            </form>
+        </div>
+        </div>
+        </section>
+
+      
+
+    <!-- Card at Center -->
+            <div class="card-container">
+                     <div class="card">
+        <h2>Content Section</h2>
+        <p>This is the content of the content section.</p>
+    </div>
+</div>
+<!-- Card at Center Ends Here -->
+
+<script>
+    $(document).ready(function() {
+        function fetchHeroContent() {
+            $.getJSON('get_hero_content.php', function(data) {
+                $('#heroContent').html(`<h1 style="color: #333;">${data.title}</h1><p style="color: #666;">${data.subtitle}</p>`);
+            });
+        }
+
+        // Fetch and display initial hero content
+        fetchHeroContent();
+
+        // Update hero content
+        $('#updateHeroButton').click(function() {
+            var newTitle = $('#newTitle').val();
+            var newSubtitle = $('#newSubtitle').val();
+
+            $.post('update_hero_content.php', { newTitle: newTitle, newSubtitle: newSubtitle }, function(response) {
+                if (response.status === 'success') {
+                    alert('Hero content updated successfully.');
+                    // Fetch and update the hero content after updating
+                    fetchHeroContent();
+                } else {
+                    alert('Failed to update hero content.');
+                }
+            }, 'json');
+        });
+    });
+</script>
+</body>
+</html>
